@@ -1,0 +1,38 @@
+package com.jpa_project.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.jpa_project.model.Edificio;
+import com.jpa_project.model.Utente;
+import com.jpa_project.service.EdificioService;
+import com.jpa_project.service.PostazioneService;
+import com.jpa_project.service.UtenteService;
+
+@Controller
+public class pageController {
+	
+	@Autowired UtenteService utenteService;
+	@Autowired PostazioneService postazioneService;
+	@Autowired EdificioService edificioService;
+
+	@GetMapping("/homepage")
+	public @ResponseBody String getHomepage() {
+		return "Benvenuto";
+	}
+	
+	@GetMapping(value="/utenti/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+	public ResponseEntity<Edificio> users(@PathVariable Long id) {
+		Edificio e = postazioneService.cercaPostazionePerId(id).getEdificio();
+		
+		ResponseEntity<Edificio> resp = new ResponseEntity<Edificio>(e, HttpStatus.OK);
+		return resp;
+	}
+}

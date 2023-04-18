@@ -1,0 +1,32 @@
+package com.jpa_project.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.jpa_project.model.Utente;
+import com.jpa_project.service.UtenteService;
+
+@Controller
+public class pageController {
+	
+	@Autowired UtenteService utenteService;
+
+	@GetMapping("/homepage")
+	public @ResponseBody String getHomepage() {
+		return "Benvenuto";
+	}
+	
+	@GetMapping(value="/utenti", produces = MediaType.APPLICATION_JSON_VALUE)
+//	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+	public ResponseEntity<Utente> users() {
+		Utente u = utenteService.cercaUtentePerId(1l);
+		
+		ResponseEntity<Utente> resp = new ResponseEntity<Utente>(u, HttpStatus.OK);
+		return resp;
+	}
+}

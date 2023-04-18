@@ -1,0 +1,31 @@
+package com.jpa_project.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.jpa_project.model.Utente;
+
+@Controller
+public class pageController {
+
+	@GetMapping("/homepage")
+	public @ResponseBody String getHomepage() {
+		return "Benvenuto";
+	}
+	
+	@GetMapping(value="/utenti", produces = MediaType.APPLICATION_JSON_VALUE)
+//	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+	public ResponseEntity<Utente> users() {
+		Utente u = Utente.builder()
+				.nome("Mario")
+				.cognome( "Rossi")
+				.email("qwerty@ex.com")
+				.build();
+		
+		ResponseEntity<Utente> resp = new ResponseEntity<Utente>(u, HttpStatus.OK);
+		return resp;
+}

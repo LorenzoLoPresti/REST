@@ -1,0 +1,6 @@
+package com.jpa_project.model;
+
+public class Info {
+	
+	private String lingua;
+}
