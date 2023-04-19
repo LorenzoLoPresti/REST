@@ -8,5 +8,6 @@ import com.jpa_project.model.Edificio;
 @Repository
 public interface EdificioDaoRepository extends JpaRepository<Edificio, Long> {
 
-
+	public Edificio findEdificioByNome(String nome);
+	
 }

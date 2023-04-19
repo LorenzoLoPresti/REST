@@ -20,7 +20,7 @@ public class PostazioneService {
 
 	//CREA POSTAZIONE
 	
-	public void creaPostazione(String desc, Edificio e, Tipo t) {
+	public Postazione creaPostazione(String desc, Edificio e, Tipo t) {
 		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(
 				PostazioneConfiguration.class);
 		Postazione p = (Postazione) appContext.getBean("creaPostazione");
@@ -34,12 +34,14 @@ public class PostazioneService {
 		System.out.println("dopo");
 		System.out.println("Postazione " + p.getTipo() + " dell'edificio "
 		+ p.getEdificio().getNome() + " creata correttamente");
+		return p;
 	}
 	
 	// CRUD
 
-	public void inserisciPostazione(Postazione p) {
+	public Postazione inserisciPostazione(Postazione p) {
 		repo.save(p);
+		return p;
 	}
 
 	public Postazione cercaPostazionePerId(Long id) {

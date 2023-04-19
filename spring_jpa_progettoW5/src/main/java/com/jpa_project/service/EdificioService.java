@@ -21,22 +21,24 @@ public class EdificioService {
 	
 	// CREA EDIFICIO NEL DB
 	
-	public void creaEdificioNelDb() {
+	public Edificio creaEdificioNelDb() {
 		AnnotationConfigApplicationContext appContext =
 				new AnnotationConfigApplicationContext(EdificioConfiguration.class);
 		Edificio e = (Edificio) appContext.getBean("nuovoEdificio");
 		inserisciEdificio(e);
 		System.out.println("Edificio " + e.getNome() + " creato correttamente");
+		return e;
 
 	}
 	
 	// CRUD
 	
-	public void inserisciEdificio(Edificio e) {
+	public Edificio inserisciEdificio(Edificio e) {
 		if(repo.existsById(e.getId())) {	
 			throw new EntityExistsException("Edificio già esistente");
 		}
 		repo.save(e);
+		return e;
 	}
 	
 	public Edificio cercaEdificioPerId(Long id) {
@@ -46,12 +48,20 @@ public class EdificioService {
         return repo.findById(id).get();
     }
 	
-	public void updateEdificio(Edificio e) {
+	public Edificio cercaEdificioPerNome(String nome) {
+//		if(!repo.existsById(id)) {	
+//			throw new EntityNotFoundException("L'edificio non esiste");
+//		}
+        return repo.findEdificioByNome(nome);
+    }
+	
+	public Edificio updateEdificio(Edificio e) {
 		if(!repo.existsById(e.getId())) {
 			throw new EntityNotFoundException("L'edificio non esiste");
 		}
 		repo.save(e);
 		System.out.println("Edificio aggiornato correttamente");
+		return e;
 	}
 	
 	public void eliminaEdificio(Edificio e) {

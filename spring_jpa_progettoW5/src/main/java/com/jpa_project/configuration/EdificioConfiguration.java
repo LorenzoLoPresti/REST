@@ -21,4 +21,9 @@ public class EdificioConfiguration {
 		
 		return e;
 	}
+	
+	@Bean
+	public Edificio nuovoEdificioCustom() {
+		return  Edificio.builder().nome("Awawa").indirizzo("Awawa").citta("Awawa").build();
+	}
 }
