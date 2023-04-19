@@ -1,0 +1,7 @@
+package com.jpa_project.Exception;
+
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+public class MyExceptionHandler extends ResponseEntityExceptionHandler {
+
+}

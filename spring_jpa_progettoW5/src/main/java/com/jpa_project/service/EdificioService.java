@@ -10,6 +10,9 @@ import com.jpa_project.configuration.EdificioConfiguration;
 import com.jpa_project.model.Edificio;
 import com.jpa_project.repository.EdificioDaoRepository;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+
 
 @Service
 public class EdificioService {
@@ -30,24 +33,39 @@ public class EdificioService {
 	// CRUD
 	
 	public void inserisciEdificio(Edificio e) {
+		if(repo.existsById(e.getId())) {	
+			throw new EntityExistsException("Edificio già esistente");
+		}
 		repo.save(e);
 	}
 	
 	public Edificio cercaEdificioPerId(Long id) {
+		if(!repo.existsById(id)) {	
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
         return repo.findById(id).get();
     }
 	
 	public void updateEdificio(Edificio e) {
+		if(!repo.existsById(e.getId())) {
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
 		repo.save(e);
 		System.out.println("Edificio aggiornato correttamente");
 	}
 	
 	public void eliminaEdificio(Edificio e) {
+		if(!repo.existsById(e.getId())) {
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
 		repo.delete(e);
 		System.out.println("Edificio eliminato");
 	}
 	
 	public void eliminaEdificioPerId(Long id) {
+		if(!repo.existsById(id)) {
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
 		repo.deleteById(id);
 		System.out.println("Edificio eliminato");
 	}

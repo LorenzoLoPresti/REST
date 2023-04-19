@@ -39,23 +39,23 @@ public class PageController {
 		return model;
 	}
 	
-	@GetMapping(value="/edificio/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-	public ResponseEntity<Edificio> edificiPerId(@PathVariable Long id) {
-		Edificio e = edificioService.cercaEdificioPerId(id);
-		
-		ResponseEntity<Edificio> resp = new ResponseEntity<Edificio>(e, HttpStatus.OK);
-		return resp;
-	}
-	
-	@GetMapping(value="/edificio", produces = MediaType.APPLICATION_JSON_VALUE)
-//	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-	public ResponseEntity<?> edifici() {
-		List<Edificio> e = edificioService.cercaTuttiEdifici();
-		
-		ResponseEntity<List<Edificio>> resp = new ResponseEntity<List<Edificio>>(e, HttpStatus.OK);
-		return resp;
-	}
+//	@GetMapping(value="/edificio/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+////	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+//	public ResponseEntity<Edificio> edificiPerId(@PathVariable Long id) {
+//		Edificio e = edificioService.cercaEdificioPerId(id);
+//		
+//		ResponseEntity<Edificio> resp = new ResponseEntity<Edificio>(e, HttpStatus.OK);
+//		return resp;
+//	}
+//	
+//	@GetMapping(value="/edificio", produces = MediaType.APPLICATION_JSON_VALUE)
+////	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+//	public ResponseEntity<?> edifici() {
+//		List<Edificio> e = edificioService.cercaTuttiEdifici();
+//		
+//		ResponseEntity<List<Edificio>> resp = new ResponseEntity<List<Edificio>>(e, HttpStatus.OK);
+//		return resp;
+//	}
 	
 //	@GetMapping(value="/utenti", produces = MediaType.APPLICATION_JSON_VALUE)
 ////	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
