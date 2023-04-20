@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jpa_project.configuration.EdificioConfiguration;
@@ -84,5 +86,9 @@ public class EdificioService {
 	
 	public List<Edificio> cercaTuttiEdifici(){
 		return repo.findAll();
+	}
+	
+	public Page<Edificio> cercaTuttiEdificiPaginati(Pageable pageable){
+		return repo.findAll(pageable);
 	}
 }

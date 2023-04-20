@@ -2,6 +2,8 @@ package com.jpa_project.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +31,7 @@ public class Utente {
 	private String username;
 	private String email;
 	@OneToMany(mappedBy = "utente")
+	@JsonIgnoreProperties("utente")
 	private List<Prenotazione> listaPostazioniPrenotate;
 	
 	@Override

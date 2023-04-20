@@ -3,6 +3,8 @@ package com.jpa_project.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,9 +25,14 @@ public class EdificioController {
 	
 	@Autowired EdificioService edificioService;
 
-	@GetMapping
-	public ResponseEntity<List<Edificio>> getEdifici(){
-		return new ResponseEntity<List<Edificio>>(edificioService.cercaTuttiEdifici(), HttpStatus.OK);
+//	@GetMapping
+//	public ResponseEntity<List<Edificio>> getEdifici(){
+//		return new ResponseEntity<List<Edificio>>(edificioService.cercaTuttiEdifici(), HttpStatus.OK);
+//	}
+	
+	@GetMapping()
+	public ResponseEntity<Page<Edificio>> getEdificiPaginati(Pageable page){
+		return new ResponseEntity<Page<Edificio>>(edificioService.cercaTuttiEdificiPaginati(page), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")

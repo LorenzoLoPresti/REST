@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jpa_project.configuration.PrenotazioneConfiguration;
@@ -13,6 +15,8 @@ import com.jpa_project.model.Postazione;
 import com.jpa_project.model.Prenotazione;
 import com.jpa_project.model.Utente;
 import com.jpa_project.repository.PrenotazioneDaoRepository;
+
+import jakarta.persistence.EntityExistsException;
 
 @Service
 public class PrenotazioneService {
@@ -23,7 +27,7 @@ public class PrenotazioneService {
 	// CREA PRENOTAZIONE SE POSTAZIONE LIBERA PER UNA DETERMINATA DATA
 	// E UTENTE LIBERO PER UNA DETERMINATA DATA
 
-	public void creaPrenotazione(Postazione post, LocalDate data, Utente u) {
+	public Prenotazione creaPrenotazione(Postazione post, LocalDate data, Utente u) {
 
 //		List<Prenotazione> lista = cercaPostazionePerData(data, u);
 //		List<Prenotazione> listaPerUtente = cercaUtentePerData(data, u);
@@ -38,45 +42,52 @@ public class PrenotazioneService {
 			salvaPrenotazione(p);
 			System.out.println(
 					"Prenotazione per l'edificio " + p.getPostazionePrenotata().getEdificio().getNome() + " accettata");
+			return p;
 		} else if (cercaUtentePerData(data, u) > 0 && cercaPostazionePerData(data, post) > 0) {
-			System.out.println(
-					"L'utente " + u.getNome() + " " + u.getCognome() + " ha già prenotato la postazione dell'edificio "
-							+ post.getEdificio().getNome() + " per la data " + data);
+			throw new EntityExistsException("prenotazione non effettuabile");
 		} else if (cercaUtentePerData(data, u) > 0) {
-			System.out.println("Utente già impegnato per la data " + data);
+			throw new EntityExistsException("prenotazione non effettuabile");
 		} else {
-			System.out.println("Postazione occupata per la data " + data);
+			throw new EntityExistsException("prenotazione non effettuabile");
 		}
 	}
 
 	// CRUD
 
-	public void salvaPrenotazione(Prenotazione p) {
+	public Prenotazione salvaPrenotazione(Prenotazione p) {
 		repo.save(p);
+		return p;
 	}
 
 	public Prenotazione cercaPrenotazioneById(Long id) {
 		return repo.findById(id).get();
 	}
 
-	public void updatePrenotazione(Prenotazione p) {
+	public Prenotazione updatePrenotazione(Prenotazione p) {
 		repo.save(p);
 		System.out.println("Prenotazione modificata");
+		return p;
 	}
 
-	public void rimuoviPrenotazione(Prenotazione p) {
+	public String rimuoviPrenotazione(Prenotazione p) {
 		repo.delete(p);
 		System.out.println("Prenotazione eliminata");
+		return "Prenotazione eliminata";
 	}
 
-	public void rimuoviPrenotazionePerId(Long id) {
+	public String rimuoviPrenotazionePerId(Long id) {
 		repo.deleteById(id);
 		System.out.println("Prenotazione eliminata");
+		return "Prenotazione eliminata";
 
 	}
 
 	public List<Prenotazione> cercaTuttePrenotazioni() {
 		return repo.findAll();
+	}
+	
+	public Page<Prenotazione> cercaTuttePrenotazioniPaginate(Pageable page) {
+		return repo.findAll(page);
 	}
 
 

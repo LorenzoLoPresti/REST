@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jpa_project.configuration.PostazioneConfiguration;
@@ -86,6 +88,10 @@ public class PostazioneService {
 
 	public List<Postazione> cercaTuttePostazioni() {
 		return repo.findAll();
+	}
+	
+	public Page<Postazione> cercaTuttePostazioniPaginate(Pageable page) {
+		return repo.findAll(page);
 	}
 	
 	// CERCA POSTAZIONE PER EDIFICIO

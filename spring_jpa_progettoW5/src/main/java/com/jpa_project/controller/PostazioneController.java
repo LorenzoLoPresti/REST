@@ -6,6 +6,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,9 +44,14 @@ public class PostazioneController {
 		return new ResponseEntity<>(postazioneService.inserisciPostazione(post), HttpStatus.CREATED);
 	}
 	
+//	@GetMapping
+//	public ResponseEntity<List<Postazione>> getPostazioni(){
+//		return new ResponseEntity<List<Postazione>>(postazioneService.cercaTuttePostazioni(), HttpStatus.OK);
+//	}
+	
 	@GetMapping
-	public ResponseEntity<List<Postazione>> getPostazioni(){
-		return new ResponseEntity<List<Postazione>>(postazioneService.cercaTuttePostazioni(), HttpStatus.OK);
+	public ResponseEntity<?> getPostazioni(Pageable page){
+		return new ResponseEntity<>(postazioneService.cercaTuttePostazioniPaginate(page), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
