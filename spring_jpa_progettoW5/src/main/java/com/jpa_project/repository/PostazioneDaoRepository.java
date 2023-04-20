@@ -15,6 +15,7 @@ public interface PostazioneDaoRepository extends JpaRepository<Postazione, Long>
 
 	public List<Postazione> findByTipo(Tipo tipo);
 	public List<Postazione>  findByEdificio(Edificio e);
+	public boolean existsByEdificio(Edificio e);
 	
 	@Query(value = "SELECT p FROM Postazione p WHERE p.tipo = :tipo AND p.edificio.citta = :citta")
 	List<Postazione> cercaPostazionePerTipoECittà(Tipo tipo, String citta);

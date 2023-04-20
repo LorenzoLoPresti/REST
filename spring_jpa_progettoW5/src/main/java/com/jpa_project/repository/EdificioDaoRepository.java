@@ -9,5 +9,6 @@ import com.jpa_project.model.Edificio;
 public interface EdificioDaoRepository extends JpaRepository<Edificio, Long> {
 
 	public Edificio findEdificioByNome(String nome);
+	public boolean existsByNome(String nome);
 	
 }

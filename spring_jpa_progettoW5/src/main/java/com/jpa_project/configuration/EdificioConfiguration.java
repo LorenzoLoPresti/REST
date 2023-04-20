@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 import com.github.javafaker.Faker;
 import com.jpa_project.model.Edificio;
@@ -12,6 +13,7 @@ import com.jpa_project.model.Edificio;
 public class EdificioConfiguration {
 
 	@Bean
+	@Scope("prototype")
 	public Edificio nuovoEdificio() {
 		Edificio e = new Edificio();
 		Faker fake = Faker.instance(new Locale("it-IT"));
@@ -23,6 +25,7 @@ public class EdificioConfiguration {
 	}
 	
 	@Bean
+	@Scope("prototype")
 	public Edificio nuovoEdificioCustom() {
 		return  Edificio.builder().nome("Awawa").indirizzo("Awawa").citta("Awawa").build();
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,9 +33,8 @@ public class EdificioController {
 		return new ResponseEntity<Edificio>(edificioService.cercaEdificioPerId(id), HttpStatus.OK);
 	}
 	
-	@PostMapping("/{id}")
-	public ResponseEntity<?> aggiungiEdificio(@RequestBody Edificio e, @PathVariable Long id){
-		e.setId(id);
+	@PostMapping()
+	public ResponseEntity<?> aggiungiEdificio(@RequestBody Edificio e){
 		return new ResponseEntity<>(edificioService.inserisciEdificio(e), HttpStatus.CREATED);
 	}
 	
@@ -44,9 +44,17 @@ public class EdificioController {
 //		return new ResponseEntity<>(f, HttpStatus.CREATED);
 //	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<?> modificaEdificio(@RequestBody Edificio e, @PathVariable Long id){
-		e.setId(id);
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> eliminaEdificioPerId(@PathVariable Long id){
+		return new ResponseEntity<>(edificioService.eliminaEdificioPerId(id), HttpStatus.OK);
+	}
+	
+	@PutMapping
+	public ResponseEntity<?> modificaEdificio(@RequestBody Edificio e){
+		
 		return new ResponseEntity<>(edificioService.updateEdificio(e), HttpStatus.OK);
 	}
+	
+	
 }

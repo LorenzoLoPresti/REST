@@ -34,7 +34,7 @@ public class EdificioService {
 	// CRUD
 	
 	public Edificio inserisciEdificio(Edificio e) {
-		if(repo.existsById(e.getId())) {	
+		if(repo.existsByNome(e.getNome())) {	
 			throw new EntityExistsException("Edificio già esistente");
 		}
 		repo.save(e);
@@ -49,9 +49,9 @@ public class EdificioService {
     }
 	
 	public Edificio cercaEdificioPerNome(String nome) {
-//		if(!repo.existsById(id)) {	
-//			throw new EntityNotFoundException("L'edificio non esiste");
-//		}
+		if(!repo.existsByNome(nome)) {	
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
         return repo.findEdificioByNome(nome);
     }
 	
@@ -64,20 +64,22 @@ public class EdificioService {
 		return e;
 	}
 	
-	public void eliminaEdificio(Edificio e) {
+	public String eliminaEdificio(Edificio e) {
 		if(!repo.existsById(e.getId())) {
 			throw new EntityNotFoundException("L'edificio non esiste");
 		}
 		repo.delete(e);
 		System.out.println("Edificio eliminato");
+		return "Edificio eliminato";
 	}
 	
-	public void eliminaEdificioPerId(Long id) {
+	public String eliminaEdificioPerId(Long id) {
 		if(!repo.existsById(id)) {
 			throw new EntityNotFoundException("L'edificio non esiste");
 		}
 		repo.deleteById(id);
 		System.out.println("Edificio eliminato");
+		return "Edificio eliminato";
 	}
 	
 	public List<Edificio> cercaTuttiEdifici(){

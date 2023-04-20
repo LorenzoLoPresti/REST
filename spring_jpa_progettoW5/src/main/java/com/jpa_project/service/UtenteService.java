@@ -11,6 +11,9 @@ import com.jpa_project.model.Prenotazione;
 import com.jpa_project.model.Utente;
 import com.jpa_project.repository.UtenteDaoRepository;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UtenteService {
 
@@ -19,37 +22,57 @@ public class UtenteService {
 	
 	// CREA UTENTE NEL DB
 	
-	public void creaUtente() {
+	public Utente creaUtente() {
 		 AnnotationConfigApplicationContext appContext =
 				 new AnnotationConfigApplicationContext(UtenteConfiguration.class);
 		Utente u = (Utente) appContext.getBean("nuovoUtente");
 		inserisciUtente(u);
 		System.out.println("Utente " + u.getNome() + " " + u.getCognome() + " creato correttamente");
+		return u;
 	}
 	
 	// CRUD
 	
-	public void inserisciUtente(Utente u) {
+	public Utente inserisciUtente(Utente u) {
+		if(repo.existsByEmail(u.getEmail())) {	
+			throw new EntityExistsException("Edificio già esistente");
+		}
 		repo.save(u);
+		return u;
 	}
 	
 	public Utente cercaUtentePerId(Long id) {
+		if(!repo.existsById(id)) {	
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
 		return repo.findById(id).get();
 	}
 	
-	public void updateUtente(Utente u) {
+	public Utente updateUtente(Utente u) {
+		if(!repo.existsById(u.getId())) {
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
 		repo.save(u);
 		System.out.println("Utente modificato");
+		return u;
 	}
 
-	public void rimuoviUtente(Utente u) {
+	public String rimuoviUtente(Utente u) {
+		if(!repo.existsById(u.getId())) {
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
 		repo.delete(u);
 		System.out.println("Utente rimosso");
+		return "Utente rimosso";
 	}
 
-	public void rimuoviUtentePerId(Long id) {
+	public String rimuoviUtentePerId(Long id) {
+		if(!repo.existsById(id)) {
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
 		repo.deleteById(id);
 		System.out.println("Utente rimosso");
+		return "Utente rimosso";
 	}
 
 	public List<Utente> cercaTuttiGliUtenti() {

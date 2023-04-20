@@ -1,5 +1,6 @@
 package com.jpa_project.model;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +23,7 @@ public class Edificio {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private String indirizzo;
 	private String citta;
+	private String indirizzo;
 	
 }

@@ -1,0 +1,54 @@
+package com.jpa_project.controller;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.jpa_project.model.Edificio;
+import com.jpa_project.model.Utente;
+
+@RestController
+public class UtenteController {
+
+	@GetMapping
+	public ResponseEntity<List<Utente>> getUtenti(){
+		return new ResponseEntity<List<Utente>>(edificioService.cercaTuttiUtenti(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Edificio> getEdificiPerId(@PathVariable Long id){
+		return new ResponseEntity<Edificio>(edificioService.cercaEdificioPerId(id), HttpStatus.OK);
+	}
+	
+	@PostMapping()
+	public ResponseEntity<?> aggiungiEdificio(@RequestBody Edificio e){
+		return new ResponseEntity<>(edificioService.inserisciEdificio(e), HttpStatus.CREATED);
+	}
+	
+//	@PostMapping
+//	public ResponseEntity<?> aggiungiEdificio(@RequestBody Edificio e){
+//		Edificio f = edificioService.inserisciEdificio(e);
+//		return new ResponseEntity<>(f, HttpStatus.CREATED);
+//	}
+	
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> eliminaEdificioPerId(@PathVariable Long id){
+		return new ResponseEntity<>(edificioService.eliminaEdificioPerId(id), HttpStatus.OK);
+	}
+	
+	@PutMapping
+	public ResponseEntity<?> modificaEdificio(@RequestBody Edificio e){
+		
+		return new ResponseEntity<>(edificioService.updateEdificio(e), HttpStatus.OK);
+	}
+	
+}

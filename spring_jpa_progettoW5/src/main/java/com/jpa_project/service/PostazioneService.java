@@ -12,6 +12,9 @@ import com.jpa_project.model.Postazione;
 import com.jpa_project.model.Tipo;
 import com.jpa_project.repository.PostazioneDaoRepository;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class PostazioneService {
 
@@ -40,27 +43,45 @@ public class PostazioneService {
 	// CRUD
 
 	public Postazione inserisciPostazione(Postazione p) {
+		if(repo.existsByEdificio(p.getEdificio())) {
+			throw new EntityExistsException("Postazione già esistente");
+		}
 		repo.save(p);
 		return p;
 	}
 
 	public Postazione cercaPostazionePerId(Long id) {
+		if(!repo.existsById(id)) {
+			throw new EntityNotFoundException("L'edificio non esiste");
+		}
 		return repo.findById(id).get();
 	}
 
-	public void updatePostazione(Postazione p) {
+	public Postazione updatePostazione(Postazione p) {
+		if(!repo.existsById(p.getId())) {
+			throw new EntityExistsException("Postazione non esistente");
+		}
 		repo.save(p);
 		System.out.println("Postazione modificata");
+		return p;
 	}
 
-	public void rimuoviPostazione(Postazione p) {
+	public String rimuoviPostazione(Postazione p) {
+		if(!repo.existsById(p.getId())) {
+			throw new EntityExistsException("Postazione non esistente");
+		}
 		repo.delete(p);
 		System.out.println("Postazione rimossa");
+		return "Postazione rimossa";
 	}
 
-	public void rimuoviPostazionePerId(Long id) {
+	public String rimuoviPostazionePerId(Long id) {
+		if(!repo.existsById(id)) {
+			throw new EntityExistsException("Postazione non esistente");
+		}
 		repo.deleteById(id);
 		System.out.println("Postazione rimossa");
+		return "Postazione rimossa";
 	}
 
 	public List<Postazione> cercaTuttePostazioni() {
